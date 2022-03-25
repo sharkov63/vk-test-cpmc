@@ -22,3 +22,12 @@ target_include_directories(${PROJECT_NAME}
 )
 
 
+# Unit-testing
+
+find_package(Boost REQUIRED)
+
+add_executable(CppCompiler_Test test/CppCompiler_Test.cpp src/CppCompiler.cpp src/CppSourceCode.cpp src/Exception.cpp)
+target_include_directories(CppCompiler_Test PUBLIC ${Boost_INCLUDE_DIR})
+target_include_directories(CppCompiler_Test PUBLIC "include/")
+target_link_libraries(CppCompiler_Test PUBLIC ${Boost_LIBRARIES})
+
