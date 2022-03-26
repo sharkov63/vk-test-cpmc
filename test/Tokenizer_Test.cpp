@@ -3,21 +3,22 @@
 
 #include "Tokenizer.hpp"
 #include "Exception.hpp"
+#include "Debug.hpp"
 
 namespace cpmc {
 
     Tokenizer tokenizer;
 
-    void singleTest(const std::string& src, const std::vector<Token>& expected) 
-    {
-        BOOST_TEST(tokenizer.tokenize(src) == expected);
+    void singleTest(const std::string& src, const std::vector<Token>& expected) {
+        auto calculated = tokenizer.tokenize(src);
+        BOOST_TEST( expected == calculated );
     }
 
     BOOST_AUTO_TEST_CASE( VK_STATEMENT_TESTS ) {
         singleTest("var str = \"Hello\";",
                    {
                        {KEYWORD, "var"},
-                       {IDENTIFIER, "std"},
+                       {IDENTIFIER, "str"},
                        {OPERATOR, "="},
                        {STRING_LITERAL, "\"Hello\""},
                        {DELIMITER, ";"},
@@ -46,7 +47,7 @@ namespace cpmc {
                    {
                        {IDENTIFIER, "str"},
                        {OPERATOR, "="},
-                       {INT_LITERAL, "12"},
+                       {INT_LITERAL, "21"},
                        {OPERATOR, "+"},
                        {INT_LITERAL, "2"},
                        {OPERATOR, "+"},
@@ -158,7 +159,7 @@ namespace cpmc {
                    {
                        {KEYWORD, "val"},
                        {IDENTIFIER, "name"},
-                       {OPERATOR, "-"},
+                       {OPERATOR, "="},
                        {KEYWORD, "input"},
                        {DELIMITER, "("},
                        {STRING_LITERAL, "\"Name: \""},
@@ -193,10 +194,12 @@ namespace cpmc {
                        {KEYWORD, "input"},
                        {DELIMITER, "("},
                        {STRING_LITERAL, "\"print\""},
+                       {DELIMITER, ")"},
                        {DELIMITER, ";"},
                        {DELIMITER, ";"},
                        {DELIMITER, ";"},
                    });
+        return;
 
         singleTest("    \"// not a comment\"   // a comment   ", 
                    {

@@ -2,6 +2,7 @@
 #define CPMC_TOKEN_HPP_INCLUDED
 
 #include <string>
+#include <iostream>
 
 namespace cpmc {
     /**
@@ -13,7 +14,7 @@ namespace cpmc {
         DELIMITER,           /// Currently, one of '(', ')', ';'
         OPERATOR,            /// Currently, one of '+', '-', '='
         KEYWORD,             /// Currently, one of "val", "var", "input", "print"
-        STRING_LITERAL,      /// A sequence of symbols not equal to " which is surrounded by " (escaping is not supported).
+        STRING_LITERAL,      /// A sequence of symbols not equal to " and to \n which is surrounded by " (escaping is not supported).
         INT_LITERAL,         /// A non-empty sequence of digits.
         FLOAT_LITERAL,       /// A (possibly empty) sequence of digits, then a ., then a non-empty sequence of digits.
         IDENTIFIER,          /// Programmer's name for a variable. A sequence of alphanumeric characters (and underscore _), which does not start with a digit.
@@ -36,6 +37,9 @@ namespace cpmc {
             const std::string& getValue() const;
 
             bool operator==(const Token& other) const;
+
+            // for debugging
+            friend std::ostream& operator<<(std::ostream& stream, const Token& token);
     };
 }
 

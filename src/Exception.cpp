@@ -38,4 +38,9 @@ namespace cpmc {
     InvalidTokenException::InvalidTokenException(const std::string& token,
                                                  const std::string& expectedTokenMessage):
         Exception("Found invalid token \"" + token + "\":\n" + expectedTokenMessage) {}
+
+
+    /* NoMoreTokensException */
+    NoMoreTokensException::NoMoreTokensException():
+        Exception() {}
 }

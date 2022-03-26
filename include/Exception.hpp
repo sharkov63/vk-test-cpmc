@@ -47,6 +47,14 @@ namespace cpmc {
             InvalidTokenException(const std::string& token);
             InvalidTokenException(const std::string& token, const std::string& expectedTokenMessage);
     };
+
+    /**
+     * Internal exception which might be thrown inside Tokenizer class.
+     */
+    class NoMoreTokensException : public Exception {
+        public:
+            NoMoreTokensException();
+    };
 }
 
 #endif // CPMC_EXCEPTION_HPP_INCLUDED include guard

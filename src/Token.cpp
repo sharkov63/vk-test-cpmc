@@ -18,4 +18,8 @@ namespace cpmc {
     bool Token::operator==(const Token& other) const {
         return type == other.type && value == other.value;
     }
+
+    std::ostream& operator<<(std::ostream& stream, const Token& token) {
+        return stream << "[" << token.type << " \"" << token.value << "\"]";
+    }
 }
