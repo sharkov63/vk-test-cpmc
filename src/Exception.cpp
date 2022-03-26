@@ -3,7 +3,7 @@
 namespace cpmc {
 
     /* Exception */
-    
+
     Exception::Exception() = default;
 
     Exception::Exception(const std::string& message):
@@ -12,6 +12,7 @@ namespace cpmc {
     const std::string& Exception::getMessage() const {
         return message;
     }
+
 
     /* CompilationException */
 
@@ -24,4 +25,17 @@ namespace cpmc {
     CompilationException::CompilationException(const std::string& commandLine,
                                                const std::string& error):
         Exception("Compilation with command line \"" + commandLine + "\" failed:\n" + error) {}
+
+
+    /* InvalidTokenException */
+
+    InvalidTokenException::InvalidTokenException():
+        Exception("Found invalid token in source code.") {}
+
+    InvalidTokenException::InvalidTokenException(const std::string& token):
+        Exception("Found invalid token \"" + token + "\" in source code.") {}
+
+    InvalidTokenException::InvalidTokenException(const std::string& token,
+                                                 const std::string& expectedTokenMessage):
+        Exception("Found invalid token \"" + token + "\":\n" + expectedTokenMessage) {}
 }

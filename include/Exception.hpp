@@ -1,10 +1,12 @@
 #ifndef CPMC_EXCEPTION_HPP_INCLUDED
 #define CPMC_EXCEPTION_HPP_INCLUDED
 
+#include "Token.hpp"
+
 #include <string>
 
 namespace cpmc {
-    
+
     /**
      * Generic class for all exceptions in cpmc.
      */
@@ -34,6 +36,16 @@ namespace cpmc {
             CompilationException(const std::string& commandLine);
             CompilationException(const std::string& commandLine,
                                  const std::string& error);
+    };
+
+    /**
+     * Exception throws in `tokenize` method of Tokenizer class.
+     */
+    class InvalidTokenException : public Exception {
+        public:
+            InvalidTokenException();
+            InvalidTokenException(const std::string& token);
+            InvalidTokenException(const std::string& token, const std::string& expectedTokenMessage);
     };
 }
 
