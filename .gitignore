@@ -2,4 +2,4 @@
 build/
 compile_commands.json
 neovim.json
-
+.nvimrc
