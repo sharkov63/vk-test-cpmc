@@ -10,8 +10,6 @@ namespace cpmc {
 
     /**
      * Splits cpm source code into a sequence of tokens.
-     *
-     * The class is not thread-safe (as it stores current string).
      */
     class Tokenizer {
         public:
@@ -33,11 +31,9 @@ namespace cpmc {
 
         private:
 
-            std::string s;     /// The current string which is being tokenized.
-            size_t n;          /// The length of s
-            size_t i;          /// The position of next symbol to read.
-
-            void init(const std::string& source) noexcept;       /// initializes fields
+            const std::string& s;     /// The current string which is being tokenized.
+            size_t n;                 /// The length of s
+            size_t i;                 /// The position of next symbol to read.
 
             /**
              * Caller should guarantee that:
@@ -84,16 +80,20 @@ namespace cpmc {
             Token nextToken();
 
         public:
-            Tokenizer();
+            /**
+             * Creates a Tokenizer for a given source code.
+             *
+             * @param s cpm source code to tokenize.
+             */
+            Tokenizer(const std::string& s);
 
             /**
              * Tokenizes given cpm source code.
              *
-             * @param source the raw cpm source code to tokenize.
              * @return a sequence of tokens (skipping tokens with type TokenType::BLANK and TokenType::COMMENT).
              * @throws InvalidTokenException on invalid token.
              */
-            std::vector<Token> tokenize(const std::string& source);
+            std::vector<Token> tokenize();
     };
 }
 

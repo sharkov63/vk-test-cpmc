@@ -34,12 +34,6 @@ namespace cpmc {
         "print",
     };
 
-    void Tokenizer::init(const std::string& source) noexcept {
-        s = source;
-        n = s.size();
-        i = 0;
-    }
-
     Token Tokenizer::nextBlankToken() noexcept {
         size_t i0 = i;
         ++i;
@@ -154,10 +148,10 @@ namespace cpmc {
         throw InvalidTokenException(s.substr(i, 1), "Illegal character is source code.");
     }
 
-    Tokenizer::Tokenizer() = default;
+    Tokenizer::Tokenizer(const std::string& s):
+        s(s), n(s.size()), i(0) {}
 
-    std::vector<Token> Tokenizer::tokenize(const std::string& source) {
-        init(source);
+    std::vector<Token> Tokenizer::tokenize() {
         std::vector<Token> tokens;
         while (i < n) {
             Token token;

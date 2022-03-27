@@ -7,10 +7,8 @@
 
 namespace cpmc {
 
-    Tokenizer tokenizer;
-
     void singleTest(const std::string& src, const std::vector<Token>& expected) {
-        auto calculated = tokenizer.tokenize(src);
+        auto calculated = Tokenizer(src).tokenize();
         BOOST_TEST( expected == calculated );
     }
 
@@ -274,7 +272,7 @@ namespace cpmc {
     }
 
     void testInvalidToken(const std::string& src) {
-        BOOST_CHECK_THROW(tokenizer.tokenize(src), InvalidTokenException);
+        BOOST_CHECK_THROW(Tokenizer(src).tokenize(), InvalidTokenException);
     }
 
     BOOST_AUTO_TEST_CASE( INVALID_TOKENS ) {
