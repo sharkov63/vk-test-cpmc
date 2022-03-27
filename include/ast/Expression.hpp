@@ -160,10 +160,10 @@ namespace cpmc {
         class OperationExpression : public Expression {
             protected:
                 /**
-                 * A symbol which denotes the binary operation.
+                 * A string which denotes the binary operation.
                  * Currently, it is either '+' or '-'.
                  */
-                const char operation;
+                const std::string operation;
 
                 /**
                  * Left-hand side of the operation.
@@ -176,7 +176,7 @@ namespace cpmc {
                 const std::unique_ptr<Expression> rhs;       
 
             public:
-                OperationExpression(char operation,
+                OperationExpression(const std::string operation,
                                     std::unique_ptr<Expression>& lhs,
                                     std::unique_ptr<Expression>& rhs);
                 virtual ~OperationExpression() override;

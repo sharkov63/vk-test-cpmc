@@ -51,7 +51,7 @@ namespace cpmc {
             };
             std::unique_ptr<Expression> v1(new IdentifierExpression("str"));
             std::unique_ptr<Expression> v2(new StringLiteralExpression("\"!\""));
-            OperationExpression v3('+', v1, v2);
+            OperationExpression v3("+", v1, v2);
             singleTest(tokens, v3);
         }
 
@@ -67,8 +67,8 @@ namespace cpmc {
             std::unique_ptr<Expression> v1(new IntLiteralExpression("21"));
             std::unique_ptr<Expression> v2(new IntLiteralExpression("2"));
             std::unique_ptr<Expression> v3(new IntLiteralExpression("18"));
-            std::unique_ptr<Expression> u1(new OperationExpression('+', v1, v2));
-            std::unique_ptr<Expression> u2(new OperationExpression('+', u1, v3));
+            std::unique_ptr<Expression> u1(new OperationExpression("+", v1, v2));
+            std::unique_ptr<Expression> u2(new OperationExpression("+", u1, v3));
             singleTest(tokens, *u2);
         }
 
@@ -80,7 +80,7 @@ namespace cpmc {
             };
             std::unique_ptr<Expression> v1(new IdentifierExpression("worldString"));
             std::unique_ptr<Expression> v2(new IdentifierExpression("answerNumber"));
-            OperationExpression v3('-', v1, v2);
+            OperationExpression v3("-", v1, v2);
             singleTest(tokens, v3);
         }
 
@@ -122,9 +122,9 @@ namespace cpmc {
             std::unique_ptr<Expression> v2(new IntLiteralExpression("2"));
             std::unique_ptr<Expression> v3(new IntLiteralExpression("3"));
             std::unique_ptr<Expression> v4(new IntLiteralExpression("4"));
-            std::unique_ptr<Expression> u1(new OperationExpression('+', v1, v2));
-            std::unique_ptr<Expression> u2(new OperationExpression('-', v3, v4));
-            std::unique_ptr<Expression>  w(new OperationExpression('-', u1, u2));
+            std::unique_ptr<Expression> u1(new OperationExpression("+", v1, v2));
+            std::unique_ptr<Expression> u2(new OperationExpression("-", v3, v4));
+            std::unique_ptr<Expression>  w(new OperationExpression("-", u1, u2));
             singleTest(tokens, *w);
         }
 
@@ -165,8 +165,8 @@ namespace cpmc {
             std::unique_ptr<Expression> v1(new StringLiteralExpression("\"The \""));
             std::unique_ptr<Expression> v2(new IntLiteralExpression("3"));
             std::unique_ptr<Expression> v3(new StringLiteralExpression("\"Bells\""));
-            std::unique_ptr<Expression> u(new OperationExpression('+', v1, v2));
-            std::unique_ptr<Expression> w(new OperationExpression('+', u, v3));
+            std::unique_ptr<Expression> u(new OperationExpression("+", v1, v2));
+            std::unique_ptr<Expression> w(new OperationExpression("+", u, v3));
             std::unique_ptr<Expression> t(new InputExpression(w));
             singleTest(tokens, *t);
         }
