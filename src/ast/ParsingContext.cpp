@@ -45,5 +45,15 @@ namespace cpmc {
         void ParsingContext::operator++(int) {
             ++pos;
         }
+
+        std::string ParsingContext::concatenateTokens(size_t l, size_t r) const {
+            assert(l <= r);
+            assert(r < n);
+            std::string result = "";
+            for (size_t i = l; i <= r; ++i) {
+                result += tokens[i].getValue();
+            }
+            return result;
+        }
     }
 }

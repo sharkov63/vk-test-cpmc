@@ -69,6 +69,12 @@ namespace cpmc {
                  * Increments parsing position.
                  */
                 void operator++(int);
+
+                /**
+                 * Returns concatenated tokens in positions l..r (inclusive).
+                 * Useful for exception handling.
+                 */
+                std::string concatenateTokens(size_t l, size_t r) const;
         };
     }
 }
