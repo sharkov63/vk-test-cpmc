@@ -37,6 +37,7 @@ namespace cpmc {
             const std::string& getValue() const;
 
             bool operator==(const Token& other) const;
+            bool operator!=(const Token& other) const;
 
             // for debugging
             friend std::ostream& operator<<(std::ostream& stream, const Token& token);
