@@ -61,20 +61,42 @@ namespace cpmc {
                 size_t position() const;
 
                 /**
+                 * Returns the size of the token list.
+                 */
+                size_t size() const;
+
+                /**
                  * Increments parsing position.
+                 *
+                 * Caller must ensure the new position does not exceed n.
                  */
                 void operator++();
 
                 /**
                  * Increments parsing position.
+                 *
+                 * Caller must ensure the new position does not exceed n.
                  */
                 void operator++(int);
+
+                /**
+                 * Increments parsing position on given delta.
+                 *
+                 * Caller must ensure the new position does not exceed n.
+                 */
+                void operator+=(size_t delta);
 
                 /**
                  * Returns concatenated tokens in positions l..r (inclusive).
                  * Useful for exception handling.
                  */
                 std::string concatenateTokens(size_t l, size_t r) const;
+
+                /**
+                 * Returns concatenated tokens in positions l..pos (inclusive).
+                 * Useful for exception handling.
+                 */
+                std::string concatenateTokensToCurrent(size_t l) const;
         };
     }
 }

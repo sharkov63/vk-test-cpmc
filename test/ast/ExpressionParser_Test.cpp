@@ -8,8 +8,6 @@
 
 #include <vector>
 
-BOOST_TEST_DONT_PRINT_LOG_VALUE( cpmc::ast::Expression );
-
 namespace cpmc {
     namespace ast {
 
@@ -67,9 +65,9 @@ namespace cpmc {
             std::unique_ptr<Expression> v1(new IntLiteralExpression("21"));
             std::unique_ptr<Expression> v2(new IntLiteralExpression("2"));
             std::unique_ptr<Expression> v3(new IntLiteralExpression("18"));
-            std::unique_ptr<Expression> u1(new OperationExpression("+", v1, v2));
-            std::unique_ptr<Expression> u2(new OperationExpression("+", u1, v3));
-            singleTest(tokens, *u2);
+            std::unique_ptr<Expression> u(new OperationExpression("+", v2, v3));
+            std::unique_ptr<Expression> w(new OperationExpression("+", v1, u));
+            singleTest(tokens, *w);
         }
 
         BOOST_AUTO_TEST_CASE( SUM_OF_TWO_IDENTIFIERS ) {
@@ -165,8 +163,8 @@ namespace cpmc {
             std::unique_ptr<Expression> v1(new StringLiteralExpression("\"The \""));
             std::unique_ptr<Expression> v2(new IntLiteralExpression("3"));
             std::unique_ptr<Expression> v3(new StringLiteralExpression("\"Bells\""));
-            std::unique_ptr<Expression> u(new OperationExpression("+", v1, v2));
-            std::unique_ptr<Expression> w(new OperationExpression("+", u, v3));
+            std::unique_ptr<Expression> u(new OperationExpression("+", v2, v3));
+            std::unique_ptr<Expression> w(new OperationExpression("+", v1, u));
             std::unique_ptr<Expression> t(new InputExpression(w));
             singleTest(tokens, *t);
         }

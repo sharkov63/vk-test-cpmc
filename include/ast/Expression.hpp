@@ -4,6 +4,7 @@
 #include "Token.hpp"
 
 #include <memory>
+#include <iostream>
 
 namespace cpmc {
     namespace ast {
@@ -38,6 +39,8 @@ namespace cpmc {
 
                 Expression(const ExpressionType& type);
 
+                virtual void debugPrint(std::ostream& stream) const = 0;
+
             public:
                 virtual ~Expression();
 
@@ -56,6 +59,11 @@ namespace cpmc {
                  * N.B.: stack-unsafe, uses a lot of recursion!
                  */
                 virtual bool operator==(const Expression& other) const = 0;
+
+                /**
+                 * For debug printing.
+                 */
+                friend std::ostream& operator<<(std::ostream& stream, const Expression& expression);
         };
 
 
@@ -71,10 +79,12 @@ namespace cpmc {
 
                 LiteralExpression(ExpressionType type, const std::string& literal);
 
+                virtual void debugPrint(std::ostream& stream) const override final;
+
             public:
                 virtual ~LiteralExpression() override;
 
-                virtual std::string toCppExpression() const override;
+                virtual std::string toCppExpression() const override final;
 
                 virtual bool operator==(const Expression& other) const override final;
         };
@@ -120,6 +130,8 @@ namespace cpmc {
                  */
                 const std::string identifier;
 
+                virtual void debugPrint(std::ostream& stream) const override;
+
             public:
                 IdentifierExpression(const std::string& identifier);
                 virtual ~IdentifierExpression() override;
@@ -141,6 +153,8 @@ namespace cpmc {
         class InputExpression : public Expression {
             protected:
                 const std::unique_ptr<Expression> argument;
+
+                virtual void debugPrint(std::ostream& stream) const override;
 
             public:
                 InputExpression();
@@ -175,8 +189,10 @@ namespace cpmc {
                  */
                 const std::unique_ptr<Expression> rhs;       
 
+                virtual void debugPrint(std::ostream& stream) const override;
+
             public:
-                OperationExpression(const std::string operation,
+                OperationExpression(const std::string& operation,
                                     std::unique_ptr<Expression>& lhs,
                                     std::unique_ptr<Expression>& rhs);
                 virtual ~OperationExpression() override;

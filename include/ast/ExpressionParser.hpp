@@ -5,6 +5,7 @@
 #include "ast/ParsingContext.hpp"
 
 #include <memory>
+#include <set>
 
 namespace cpmc {
     namespace ast {
@@ -15,14 +16,41 @@ namespace cpmc {
          * See Expression and ParsingContext.
          */
         class ExpressionParser {
-            private:
-                const ParsingContext& context;
-
             public:
-                ExpressionParser(const ParsingContext& context);
+                static const std::set<std::string> validBinaryOperators;
+
+            private:
+                ParsingContext& context;
 
                 /**
-                 * Parses next expression.
+                 * Caller must guarantee that
+                 * context.done() is false and context() == OPENING_BRACKET_TOKEN
+                 *
+                 * @throws ExpressionSyntaxError
+                 */
+                std::unique_ptr<Expression> nextBracketClosedExpression();
+
+                /**
+                 * Caller must guarantee that
+                 * context.done() is false and context() == INPUT_KEYWORD_TOKEN
+                 *
+                 * @throws ExpressionSyntaxError
+                 */
+                std::unique_ptr<Expression> nextInputExpression();
+
+                /**
+                 * Caller must guarantee that
+                 * context.done() is false.
+                 *
+                 * @throws ExpressionSyntaxError
+                 */
+                std::unique_ptr<Expression> nextOperatorFreeExpression();
+
+            public:
+                ExpressionParser(ParsingContext& context);
+
+                /**
+                 * Parses next expression (creating it in heap).
                  *
                  * @throws ExpressionSyntaxError on invalid expression.
                  */

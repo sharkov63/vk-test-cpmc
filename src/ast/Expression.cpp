@@ -13,8 +13,17 @@ namespace cpmc {
             return type;
         }
 
+        std::ostream& operator<<(std::ostream& stream, const Expression& expression) {
+            expression.debugPrint(stream);
+            return stream;
+        }
+
 
         /* LiteralExpression */
+
+        void LiteralExpression::debugPrint(std::ostream& stream) const {
+            stream << literal;
+        }
 
         LiteralExpression::LiteralExpression(ExpressionType type,
                                              const std::string& literal):
@@ -26,7 +35,6 @@ namespace cpmc {
         std::string LiteralExpression::toCppExpression() const {
             return literal;
         }
-
 
         bool LiteralExpression::operator==(const Expression& other) const {
             if (other.getType() != type) {
@@ -58,8 +66,14 @@ namespace cpmc {
         FloatLiteralExpression::FloatLiteralExpression(const std::string& literal):
             LiteralExpression(ExpressionType::FLOAT_LITERAL, literal) {}
 
+        FloatLiteralExpression::~FloatLiteralExpression() = default;
+
 
         /* IdentifierExpression */
+
+        void IdentifierExpression::debugPrint(std::ostream& stream) const {
+            stream << identifier;
+        }
 
         IdentifierExpression::IdentifierExpression(const std::string& identifier):
             Expression(ExpressionType::IDENTIFIER),
@@ -82,6 +96,10 @@ namespace cpmc {
 
         /* InputExpression */
 
+        void InputExpression::debugPrint(std::ostream& stream) const {
+            stream << "input(" << *argument << ")";
+        }
+
         InputExpression::InputExpression():
             Expression(ExpressionType::INPUT),
             argument(std::unique_ptr<Expression>(new StringLiteralExpression("\"\""))) {}
@@ -101,13 +119,17 @@ namespace cpmc {
                 return false;
             }
             InputExpression* pointer = (InputExpression*)(&other);
-            return argument == pointer->argument;
+            return *argument == *(pointer->argument);
         }
 
 
         /* OperationExpression */
 
-        OperationExpression::OperationExpression(char operation,
+        void OperationExpression::debugPrint(std::ostream& stream) const {
+            stream << "(" << *lhs << ")" << operation << "(" << *rhs << ")";
+        }
+
+        OperationExpression::OperationExpression(const std::string& operation,
                                                  std::unique_ptr<Expression>& lhs,
                                                  std::unique_ptr<Expression>& rhs):
             Expression(ExpressionType::OPERATION),
@@ -126,7 +148,7 @@ namespace cpmc {
                 return false;
             }
             OperationExpression* pointer = (OperationExpression*)(&other);
-            return lhs == pointer->lhs && rhs == pointer->rhs;
+            return *lhs == *(pointer->lhs) && *rhs == *(pointer->rhs);
         }
     }
 }

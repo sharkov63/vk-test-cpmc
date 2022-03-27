@@ -42,6 +42,10 @@ namespace cpmc {
             // for debugging
             friend std::ostream& operator<<(std::ostream& stream, const Token& token);
     };
+
+    const Token OPENING_BRACKET_TOKEN(TokenType::DELIMITER, "(");
+    const Token CLOSING_BRACKET_TOKEN(TokenType::DELIMITER, ")");
+    const Token INPUT_KEYWORD_TOKEN(TokenType::KEYWORD, "input");
 }
 
 #endif  // CPMC_TOKEN_HPP_INCLUDED include guard
