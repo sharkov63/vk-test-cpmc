@@ -76,7 +76,7 @@ namespace cpmc {
     class ExpressionSyntaxError : public SyntaxError {
         public:
             ExpressionSyntaxError();
-            ExpressionSyntaxError(const std::string& expression);
+            ExpressionSyntaxError(const std::string& error);
             ExpressionSyntaxError(const std::string& expression,
                                   const std::string& error);
     };

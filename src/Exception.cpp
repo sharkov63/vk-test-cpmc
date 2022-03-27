@@ -61,8 +61,8 @@ namespace cpmc {
     ExpressionSyntaxError::ExpressionSyntaxError():
         SyntaxError("Invalid expression.") {}
 
-    ExpressionSyntaxError::ExpressionSyntaxError(const std::string& expression):
-        SyntaxError("Invalid expression \"" + expression + "\".") {}
+    ExpressionSyntaxError::ExpressionSyntaxError(const std::string& error):
+        SyntaxError("Invalid expression:\n" + error) {}
 
     ExpressionSyntaxError::ExpressionSyntaxError(const std::string& expression,
                                                  const std::string& error):
