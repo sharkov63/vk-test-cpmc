@@ -41,6 +41,11 @@ namespace cpmc {
                 explicit ParsingContext(const std::vector<Token>& tokens);
 
                 /**
+                 * Returns true iff we reached the end (pos >= n)
+                 */
+                bool done() const;
+
+                /**
                  * Returns the token at given position.
                  */
                 const Token& operator[](size_t index) const;

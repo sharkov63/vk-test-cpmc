@@ -6,6 +6,10 @@ namespace cpmc {
         ParsingContext::ParsingContext(const std::vector<Token>& tokens):
             tokens(tokens), n(tokens.size()), pos(0) {}
 
+        bool ParsingContext::done() const {
+            return pos >= n;
+        }
+
         /**
          * Returns the token at given position.
          */
