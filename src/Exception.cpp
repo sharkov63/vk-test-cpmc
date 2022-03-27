@@ -41,6 +41,30 @@ namespace cpmc {
 
 
     /* NoMoreTokensException */
+
     NoMoreTokensException::NoMoreTokensException():
         Exception() {}
+
+
+    /* SyntaxError */
+
+    SyntaxError::SyntaxError():
+        Exception("Syntax error.") {}
+
+    SyntaxError::SyntaxError(const std::string& error):
+        Exception("Syntax error:\n" + error) {}
+
+
+
+    /* ExpressionSyntaxError */
+
+    ExpressionSyntaxError::ExpressionSyntaxError():
+        SyntaxError("Invalid expression.") {}
+
+    ExpressionSyntaxError::ExpressionSyntaxError(const std::string& expression):
+        SyntaxError("Invalid expression \"" + expression + "\".") {}
+
+    ExpressionSyntaxError::ExpressionSyntaxError(const std::string& expression,
+                                                 const std::string& error):
+        SyntaxError("Invalid expression \"" + expression + "\":\n" + error) {}
 }

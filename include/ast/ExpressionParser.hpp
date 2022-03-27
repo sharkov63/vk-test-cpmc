@@ -24,7 +24,7 @@ namespace cpmc {
                 /**
                  * Parses next expression.
                  *
-                 * @throws TODO
+                 * @throws ExpressionSyntaxError on invalid expression.
                  */
                 std::unique_ptr<Expression> nextExpression();
         };

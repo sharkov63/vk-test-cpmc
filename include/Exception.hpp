@@ -55,6 +55,31 @@ namespace cpmc {
         public:
             NoMoreTokensException();
     };
+
+    /**
+     * An exception that may appear during parsing procedure.
+     *
+     * It means that the CPM source code contained a syntax error.
+     */
+    class SyntaxError : public Exception {
+        public:
+            SyntaxError();
+            SyntaxError(const std::string& error);
+    };
+
+    /**
+     * An exception which may appear while parsing an expression
+     * (see ExpressionParser).
+     *
+     * It means that the CPM source code contained an invalid expression.
+     */
+    class ExpressionSyntaxError : public SyntaxError {
+        public:
+            ExpressionSyntaxError();
+            ExpressionSyntaxError(const std::string& expression);
+            ExpressionSyntaxError(const std::string& expression,
+                                  const std::string& error);
+    };
 }
 
 #endif // CPMC_EXCEPTION_HPP_INCLUDED include guard

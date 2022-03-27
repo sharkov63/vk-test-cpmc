@@ -10,7 +10,7 @@ namespace cpmc {
          * Returns the token at given position.
          */
         const Token& ParsingContext::operator[](size_t index) const {
-            assert(0 <= index && index < n);
+            assert(index < n);
             return tokens[index];
         }
 
