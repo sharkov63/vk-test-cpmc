@@ -12,7 +12,9 @@ namespace cpmc {
          * Possible types of Expression.
          */
         enum ExpressionType {
-            LITERAL,             /// A string, int or float literal.
+            STRING_LITERAL,      /// A string literal.
+            INT_LITERAL,         /// An int literal.
+            FLOAT_LITERAL,       /// A float literal.
             IDENTIFIER,          /// An identifier (a name of a variable or a constant).
             INPUT,               /// An expression of type input(<expression>) or input().
             OPERATION,           /// A binary operation: <expression><op><expression> where <op> is '+' or '-'.
@@ -34,8 +36,9 @@ namespace cpmc {
                  */
                 const ExpressionType type;
 
-            public:
                 Expression(const ExpressionType& type);
+
+            public:
                 virtual ~Expression();
 
                 ExpressionType getType() const;
@@ -60,19 +63,50 @@ namespace cpmc {
          * An expression which is a string, int or float literal.
          */
         class LiteralExpression : public Expression {
-            private:
+            protected:
                 /**
                  * The literal itself.
                  */
                 const std::string literal;
 
+                LiteralExpression(ExpressionType type, const std::string& literal);
+
             public:
-                LiteralExpression(const std::string& literal);
-                virtual ~LiteralExpression();
+                virtual ~LiteralExpression() override;
 
-                virtual std::string toCppExpression() const;
+                virtual std::string toCppExpression() const override;
 
-                virtual bool operator==(const Expression& other) const;
+                virtual bool operator==(const Expression& other) const override final;
+        };
+
+
+        /**
+         * String literal.
+         */
+        class StringLiteralExpression : public LiteralExpression {
+            public:
+                StringLiteralExpression(const std::string& litreal);
+                virtual ~StringLiteralExpression() override;
+        };
+
+
+        /**
+         * Int literal.
+         */
+        class IntLiteralExpression : public LiteralExpression {
+            public:
+                IntLiteralExpression(const std::string& literal);
+                virtual ~IntLiteralExpression() override;
+        };
+
+
+        /**
+         * Float literal.
+         */
+        class FloatLiteralExpression : public LiteralExpression {
+            public:
+                FloatLiteralExpression(const std::string& literal);
+                virtual ~FloatLiteralExpression() override;
         };
 
 
@@ -80,7 +114,7 @@ namespace cpmc {
          * An expression corresponding to single variable (or constant).
          */
         class IdentifierExpression : public Expression {
-            private:
+            protected:
                 /**
                  * The identifier of a variable (or constant).
                  */
@@ -88,11 +122,11 @@ namespace cpmc {
 
             public:
                 IdentifierExpression(const std::string& identifier);
-                virtual ~IdentifierExpression();
+                virtual ~IdentifierExpression() override;
 
-                virtual std::string toCppExpression() const;
+                virtual std::string toCppExpression() const override;
 
-                virtual bool operator==(const Expression& other) const;
+                virtual bool operator==(const Expression& other) const override;
         };
 
 
@@ -105,17 +139,17 @@ namespace cpmc {
          * In the latter case the string argument is taken empty.
          */
         class InputExpression : public Expression {
-            private:
+            protected:
                 const std::unique_ptr<Expression> argument;
 
             public:
                 InputExpression();
                 InputExpression(std::unique_ptr<Expression>& argument);
-                virtual ~InputExpression();
+                virtual ~InputExpression() override;
 
-                virtual std::string toCppExpression() const;
+                virtual std::string toCppExpression() const override;
 
-                virtual bool operator==(const Expression& other) const;
+                virtual bool operator==(const Expression& other) const override;
         };
 
 
@@ -124,7 +158,7 @@ namespace cpmc {
          * or <expression1> - <expression2>.
          */
         class OperationExpression : public Expression {
-            private:
+            protected:
                 /**
                  * A symbol which denotes the binary operation.
                  * Currently, it is either '+' or '-'.
@@ -145,11 +179,11 @@ namespace cpmc {
                 OperationExpression(char operation,
                                     std::unique_ptr<Expression>& lhs,
                                     std::unique_ptr<Expression>& rhs);
-                virtual ~OperationExpression();
+                virtual ~OperationExpression() override;
 
-                virtual std::string toCppExpression() const;
+                virtual std::string toCppExpression() const override;
 
-                virtual bool operator==(const Expression& other) const;
+                virtual bool operator==(const Expression& other) const override;
         };
     }
 }

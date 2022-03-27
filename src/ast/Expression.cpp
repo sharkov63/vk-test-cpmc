@@ -16,25 +16,47 @@ namespace cpmc {
 
         /* LiteralExpression */
 
-        LiteralExpression::LiteralExpression(const std::string& literal):
-            Expression(ExpressionType::LITERAL),
+        LiteralExpression::LiteralExpression(ExpressionType type,
+                                             const std::string& literal):
+            Expression(type),
             literal(literal) {}
 
-        LiteralExpression::~LiteralExpression() {
-            std::cerr << "Literal expression destructor" << literal << std::endl;
-        }
+        LiteralExpression::~LiteralExpression() = default;
 
         std::string LiteralExpression::toCppExpression() const {
             return literal;
         }
 
+
         bool LiteralExpression::operator==(const Expression& other) const {
-            if (other.getType() != ExpressionType::LITERAL) {
+            if (other.getType() != type) {
                 return false;
             }
             LiteralExpression* pointer = (LiteralExpression*)(&other);
             return literal == pointer->literal;
         }
+
+
+        /* StringLiteralExpression */
+
+        StringLiteralExpression::StringLiteralExpression(const std::string& literal):
+            LiteralExpression(ExpressionType::STRING_LITERAL, literal) {}
+
+        StringLiteralExpression::~StringLiteralExpression() = default;
+
+
+        /* IntLiteralExpression */
+
+        IntLiteralExpression::IntLiteralExpression(const std::string& literal):
+            LiteralExpression(ExpressionType::INT_LITERAL, literal) {}
+
+        IntLiteralExpression::~IntLiteralExpression() = default;
+
+
+        /* FloatLiteralExpression */
+
+        FloatLiteralExpression::FloatLiteralExpression(const std::string& literal):
+            LiteralExpression(ExpressionType::FLOAT_LITERAL, literal) {}
 
 
         /* IdentifierExpression */
@@ -62,7 +84,7 @@ namespace cpmc {
 
         InputExpression::InputExpression():
             Expression(ExpressionType::INPUT),
-            argument(std::unique_ptr<Expression>(new LiteralExpression("\"\""))) {}
+            argument(std::unique_ptr<Expression>(new StringLiteralExpression("\"\""))) {}
 
         InputExpression::InputExpression(std::unique_ptr<Expression>& argument):
             Expression(ExpressionType::INPUT),
