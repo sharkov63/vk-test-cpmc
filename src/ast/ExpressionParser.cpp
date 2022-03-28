@@ -66,7 +66,7 @@ namespace cpmc {
             TokenType type = nextToken.getType();
 
             if (type == TokenType::IDENTIFIER) {
-                // expression consists of a single idenditfier
+                // expression consists of a single identifier
                 std::unique_ptr<Expression> result(new IdentifierExpression(context().getValue()));
                 context++;
                 return result;
