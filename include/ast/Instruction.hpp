@@ -10,30 +10,22 @@ namespace cpmc {
     namespace ast {
 
         /**
-         * Possible types of Instruction.
+         * See below.
          */
-        enum InstructionType {
-            EMPTY_INSTRUCTION,      /// Unlike Expression, an Instruction can be empty, which means it does nothing. Usually skipped.
-            DEFINITION,             /// Creates and optionally assigns a variable (or a constant).
-            ASSIGNMENT,             /// Assigns a value to a variable.
-            PRINTING,               /// Prints an expression to standard output.
-        };
-        
+        class InstructionVisitor;
+
         /**
          * A single instruction in CPM language.
          */
         class Instruction {
-            private:
-                /**
-                 * The type of Instruction;
-                 *
-                 * MUST ALWAYS MATCH WITH THE DERIVED CLASS OF INSTRUCTION.
-                 */
-                const InstructionType type;
-
             public:
-                Instruction(const InstructionType& type);
+                Instruction();
                 virtual ~Instruction();
+
+                /**
+                 * Accepts given visitor.
+                 */
+                virtual void accept(InstructionVisitor& visitor) const = 0;
         };
 
 
@@ -50,6 +42,8 @@ namespace cpmc {
             public:
                 EmptyInstruction();
                 virtual ~EmptyInstruction() override;
+
+                virtual void accept(InstructionVisitor& visitor) const override;
         };
 
 
@@ -92,6 +86,7 @@ namespace cpmc {
 
                 virtual ~Definition() override;
 
+                virtual void accept(InstructionVisitor& visitor) const override;
         };
 
     
@@ -120,6 +115,8 @@ namespace cpmc {
                            std::unique_ptr<Expression>& expression);
 
                 virtual ~Assignment() override;
+
+                virtual void accept(InstructionVisitor& visitor) const override;
         };
 
 
@@ -137,6 +134,23 @@ namespace cpmc {
                 Printing(std::unique_ptr<Expression>& expression);
 
                 virtual ~Printing() override;
+
+                virtual void accept(InstructionVisitor& visitor) const override;
+        };
+
+
+        /**
+         * Vistor interface for Instructions.
+         */
+        class InstructionVisitor {
+            public:
+                InstructionVisitor();
+                virtual ~InstructionVisitor();
+
+                virtual void visit(const EmptyInstruction& emptyInstruction) = 0;
+                virtual void visit(const Definition& definition) = 0;
+                virtual void visit(const Assignment& assignment) = 0;
+                virtual void visit(const Printing& printingInstruction) = 0;
         };
     }
 }

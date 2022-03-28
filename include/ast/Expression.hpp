@@ -11,6 +11,8 @@ namespace cpmc {
 
         /**
          * Possible types of Expression.
+         *
+         * TODO implement Visitor pattern for expressions.
          */
         enum ExpressionType {
             STRING_LITERAL,      /// A string literal.

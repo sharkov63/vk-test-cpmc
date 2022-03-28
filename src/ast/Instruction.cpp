@@ -5,8 +5,7 @@ namespace cpmc {
 
         /* Instruction */
 
-        Instruction::Instruction(const InstructionType& type):
-            type(type) {}
+        Instruction::Instruction() {}
 
         Instruction::~Instruction() = default;
 
@@ -14,16 +13,20 @@ namespace cpmc {
         /* EmptyInstruction */
 
         EmptyInstruction::EmptyInstruction():
-            Instruction(InstructionType::EMPTY_INSTRUCTION) {}
+            Instruction() {}
 
         EmptyInstruction::~EmptyInstruction() = default;
+
+        void EmptyInstruction::accept(InstructionVisitor& visitor) const {
+            visitor.visit(*this);
+        }
 
 
         /* Definition */
 
         Definition::Definition(const std::string& keyword,
                                const std::string& identifier):
-            Instruction(InstructionType::DEFINITION),
+            Instruction(),
             keyword(keyword),
             identifier(identifier),
             expression(std::unique_ptr<Expression>(nullptr)) {}
@@ -31,31 +34,50 @@ namespace cpmc {
         Definition::Definition(const std::string& keyword,
                                const std::string& identifier,
                                std::unique_ptr<Expression>& expression):
-            Instruction(InstructionType::DEFINITION),
+            Instruction(),
             keyword(keyword),
             identifier(identifier),
             expression(std::move(expression)) {}
 
         Definition::~Definition() = default;
 
+        void Definition::accept(InstructionVisitor& visitor) const {
+            visitor.visit(*this);
+        }
+
+
 
         /* Assignment */
 
         Assignment::Assignment(const std::string& identifier,
                                std::unique_ptr<Expression>& expression):
-            Instruction(InstructionType::ASSIGNMENT),
+            Instruction(),
             identifier(identifier),
             expression(std::move(expression)) {}
 
         Assignment::~Assignment() = default;
 
+        void Assignment::accept(InstructionVisitor& visitor) const {
+            visitor.visit(*this);
+        }
+
 
         /* Printing */
 
         Printing::Printing(std::unique_ptr<Expression>& expression):
-            Instruction(InstructionType::PRINTING),
+            Instruction(),
             expression(std::move(expression)) {}
 
         Printing::~Printing() = default;
+
+        void Printing::accept(InstructionVisitor& visitor) const {
+            visitor.visit(*this);
+        }
+
+
+        /* InstructionVisitor */
+
+        InstructionVisitor::InstructionVisitor() = default;
+        InstructionVisitor::~InstructionVisitor() = default;
     }
 }
