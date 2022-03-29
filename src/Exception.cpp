@@ -2,69 +2,54 @@
 
 namespace cpmc {
 
-    /* Exception */
+/* Exception */
 
-    Exception::Exception() = default;
+Exception::Exception() = default;
 
-    Exception::Exception(const std::string& message):
-        message(message) {}
+Exception::Exception(const std::string& message) : message(message) {}
 
-    const std::string& Exception::getMessage() const {
-        return message;
-    }
+const std::string& Exception::getMessage() const { return message; }
 
+/* CompilationException */
 
-    /* CompilationException */
+CompilationException::CompilationException() : Exception("Compilation failed.") {}
 
-    CompilationException::CompilationException():
-        Exception("Compilation failed.") {}
+CompilationException::CompilationException(const std::string& commandLine)
+    : Exception("Compilation with command line \"" + commandLine + "\" failed.") {}
 
-    CompilationException::CompilationException(const std::string& commandLine):
-        Exception("Compilation with command line \"" + commandLine + "\" failed.") {}
+CompilationException::CompilationException(const std::string& commandLine, const std::string& error)
+    : Exception("Compilation with command line \"" + commandLine + "\" failed:\n" + error) {}
 
-    CompilationException::CompilationException(const std::string& commandLine,
-                                               const std::string& error):
-        Exception("Compilation with command line \"" + commandLine + "\" failed:\n" + error) {}
+/* InvalidTokenException */
 
+InvalidTokenException::InvalidTokenException() : Exception("Found invalid token in source code.") {}
 
-    /* InvalidTokenException */
+InvalidTokenException::InvalidTokenException(const std::string& token)
+    : Exception("Found invalid token \"" + token + "\" in source code.") {}
 
-    InvalidTokenException::InvalidTokenException():
-        Exception("Found invalid token in source code.") {}
+InvalidTokenException::InvalidTokenException(const std::string& token,
+                                             const std::string& expectedTokenMessage)
+    : Exception("Found invalid token \"" + token + "\":\n" + expectedTokenMessage) {}
 
-    InvalidTokenException::InvalidTokenException(const std::string& token):
-        Exception("Found invalid token \"" + token + "\" in source code.") {}
+/* NoMoreTokensException */
 
-    InvalidTokenException::InvalidTokenException(const std::string& token,
-                                                 const std::string& expectedTokenMessage):
-        Exception("Found invalid token \"" + token + "\":\n" + expectedTokenMessage) {}
+NoMoreTokensException::NoMoreTokensException() : Exception() {}
 
+/* SyntaxError */
 
-    /* NoMoreTokensException */
+SyntaxError::SyntaxError() : Exception("Syntax error.") {}
 
-    NoMoreTokensException::NoMoreTokensException():
-        Exception() {}
+SyntaxError::SyntaxError(const std::string& error) : Exception("Syntax error:\n" + error) {}
 
+/* ExpressionSyntaxError */
 
-    /* SyntaxError */
+ExpressionSyntaxError::ExpressionSyntaxError() : SyntaxError("Invalid expression.") {}
 
-    SyntaxError::SyntaxError():
-        Exception("Syntax error.") {}
+ExpressionSyntaxError::ExpressionSyntaxError(const std::string& error)
+    : SyntaxError("Invalid expression:\n" + error) {}
 
-    SyntaxError::SyntaxError(const std::string& error):
-        Exception("Syntax error:\n" + error) {}
+ExpressionSyntaxError::ExpressionSyntaxError(const std::string& expression,
+                                             const std::string& error)
+    : SyntaxError("Invalid expression \"" + expression + "\":\n" + error) {}
 
-
-
-    /* ExpressionSyntaxError */
-
-    ExpressionSyntaxError::ExpressionSyntaxError():
-        SyntaxError("Invalid expression.") {}
-
-    ExpressionSyntaxError::ExpressionSyntaxError(const std::string& error):
-        SyntaxError("Invalid expression:\n" + error) {}
-
-    ExpressionSyntaxError::ExpressionSyntaxError(const std::string& expression,
-                                                 const std::string& error):
-        SyntaxError("Invalid expression \"" + expression + "\":\n" + error) {}
-}
+}  // namespace cpmc

@@ -1,9 +1,10 @@
 #include "ast/Program.hpp"
 
 namespace cpmc {
-    namespace ast {
+namespace ast {
 
-        Program::Program(const std::vector<std::unique_ptr<Instruction>>& instructions):
-            instructions(instructions) {}
-    }
-}
+Program::Program(const std::vector<std::unique_ptr<Instruction>>& instructions)
+    : instructions(instructions) {}
+
+}  // namespace ast
+}  // namespace cpmc
