@@ -63,6 +63,8 @@ target_link_libraries(ExpressionParser_Test PUBLIC ${Boost_LIBRARIES})
 add_executable(InstructionParser_Test
     test/ast/InstructionParser_Test.cpp
     src/ast/InstructionParser.cpp
+    src/ast/InstructionComparator.cpp
+    src/ast/InstructionDebugPrinter.cpp
     src/ast/Instruction.cpp
     src/ast/ExpressionParser.cpp
     src/ast/Expression.cpp
