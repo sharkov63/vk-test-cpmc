@@ -20,7 +20,7 @@ class Program {
     std::vector<std::unique_ptr<Instruction>> instructions;
 
    public:
-    Program(const std::vector<std::unique_ptr<Instruction>>& instructions);
+    Program(std::vector<std::unique_ptr<Instruction>>&& instructions);
 
     // field getter
     const std::vector<std::unique_ptr<Instruction>>& getInstructions() const;

@@ -27,7 +27,7 @@ target_include_directories(${PROJECT_NAME}
 find_package(Boost REQUIRED)
 
 # CppCompiler test
-add_executable(CppCompiler_Test test/CppCompiler_Test.cpp src/CppCompiler.cpp src/CppSourceCode.cpp src/Exception.cpp)
+add_executable(CppCompiler_Test test/CppCompiler_Test.cpp src/CppCompiler.cpp src/CppSourceCode.cpp src/Token.cpp src/Exception.cpp)
 target_include_directories(CppCompiler_Test PUBLIC ${Boost_INCLUDE_DIR})
 target_include_directories(CppCompiler_Test PUBLIC "include/")
 target_link_libraries(CppCompiler_Test PUBLIC ${Boost_LIBRARIES})
