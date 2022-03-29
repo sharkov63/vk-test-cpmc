@@ -82,6 +82,11 @@ class Definition : public Instruction {
 
     virtual ~Definition() override;
 
+    // field getters
+    const std::string& getKeyword() const;
+    const std::string& getIdentifier() const;
+    const std::unique_ptr<Expression>& getExpressionPtr() const;
+
     virtual void accept(InstructionVisitor& visitor) const override;
 };
 
@@ -106,10 +111,13 @@ class Assignment : public Instruction {
     const std::unique_ptr<Expression> expression;
 
    public:
-    Assignment(const std::string& identifier,
-               std::unique_ptr<Expression>& expression);
+    Assignment(const std::string& identifier, std::unique_ptr<Expression>& expression);
 
     virtual ~Assignment() override;
+
+    // field getters
+    const std::string& getIdentifier() const;
+    const std::unique_ptr<Expression>& getExpressionPtr() const;
 
     virtual void accept(InstructionVisitor& visitor) const override;
 };
@@ -128,6 +136,9 @@ class Printing : public Instruction {
     Printing(std::unique_ptr<Expression>& expression);
 
     virtual ~Printing() override;
+
+    // field getters
+    const std::unique_ptr<Expression>& getExpressionPtr() const;
 
     virtual void accept(InstructionVisitor& visitor) const override;
 };

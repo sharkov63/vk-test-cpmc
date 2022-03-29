@@ -21,6 +21,9 @@ class Program {
 
    public:
     Program(const std::vector<std::unique_ptr<Instruction>>& instructions);
+
+    // field getter
+    const std::vector<std::unique_ptr<Instruction>>& getInstructions() const;
 };
 
 }  // namespace ast
