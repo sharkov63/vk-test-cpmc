@@ -52,4 +52,15 @@ ExpressionSyntaxError::ExpressionSyntaxError(const std::string& expression,
                                              const std::string& error)
     : SyntaxError("Invalid expression \"" + expression + "\":\n" + error) {}
 
+/* InstructionSyntaxError */
+
+InstructionSyntaxError::InstructionSyntaxError() : SyntaxError("Invalid instruction.") {}
+
+InstructionSyntaxError::InstructionSyntaxError(const std::string& error)
+    : SyntaxError("Invalid instruction:\n" + error) {}
+
+InstructionSyntaxError::InstructionSyntaxError(const std::string& instruction,
+                                               const std::string& error)
+    : SyntaxError("Invalid instruction \"" + instruction + "\":\n" + error) {}
+
 }  // namespace cpmc

@@ -34,8 +34,7 @@ class CompilationException : public Exception {
    public:
     CompilationException();
     CompilationException(const std::string& commandLine);
-    CompilationException(const std::string& commandLine,
-                         const std::string& error);
+    CompilationException(const std::string& commandLine, const std::string& error);
 };
 
 /**
@@ -45,8 +44,7 @@ class InvalidTokenException : public Exception {
    public:
     InvalidTokenException();
     InvalidTokenException(const std::string& token);
-    InvalidTokenException(const std::string& token,
-                          const std::string& expectedTokenMessage);
+    InvalidTokenException(const std::string& token, const std::string& expectedTokenMessage);
 };
 
 /**
@@ -78,8 +76,20 @@ class ExpressionSyntaxError : public SyntaxError {
    public:
     ExpressionSyntaxError();
     ExpressionSyntaxError(const std::string& error);
-    ExpressionSyntaxError(const std::string& expression,
-                          const std::string& error);
+    ExpressionSyntaxError(const std::string& expression, const std::string& error);
+};
+
+/**
+ * An exception which may appear while parsing an instruction
+ * (see InstructionParser).
+ *
+ * It means that the CPM source code contained an invalid instruction.
+ */
+class InstructionSyntaxError : public SyntaxError {
+   public:
+    InstructionSyntaxError();
+    InstructionSyntaxError(const std::string& error);
+    InstructionSyntaxError(const std::string& instruction, const std::string& error);
 };
 
 }  // namespace cpmc
