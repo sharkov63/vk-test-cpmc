@@ -10,10 +10,10 @@ namespace cpmc {
  * Types of Token.
  */
 enum TokenType {
-    BLANK,    /// A sequence of blank characters (all characters satisfying
-              /// std::isspace). Usually ignored
-    COMMENT,  /// A comment (currently only C-style single line comment starting
-              /// with "//") Usually ignored
+    BLANK,           /// A sequence of blank characters (all characters satisfying
+                     /// std::isspace). Usually ignored
+    COMMENT,         /// A comment (currently only C-style single line comment starting
+                     /// with "//") Usually ignored
     DELIMITER,       /// Currently, one of '(', ')', ';'
     OPERATOR,        /// Currently, one of '+', '-', '='
     KEYWORD,         /// Currently, one of "val", "var", "input", "print"
@@ -23,8 +23,8 @@ enum TokenType {
     FLOAT_LITERAL,   /// A (possibly empty) sequence of digits, then a ., then a
                      /// non-empty sequence of digits.
     IDENTIFIER,      /// Programmer's name for a variable. A sequence of
-                 /// alphanumeric characters (and underscore _), which does not
-                 /// start with a digit.
+                     /// alphanumeric characters (and underscore _), which does not
+                     /// start with a digit.
 };
 
 /**
@@ -33,9 +33,8 @@ enum TokenType {
  */
 class Token {
    private:
-    TokenType type;  /// The type of token.
-    std::string
-        value;  /// The value of token (it's actual string representation).
+    TokenType type;     /// The type of token.
+    std::string value;  /// The value of token (it's actual string representation).
 
    public:
     Token();
@@ -53,7 +52,12 @@ class Token {
 
 const Token OPENING_BRACKET_TOKEN(TokenType::DELIMITER, "(");
 const Token CLOSING_BRACKET_TOKEN(TokenType::DELIMITER, ")");
+const Token SEMICOLON_TOKEN(TokenType::DELIMITER, ";");
+const Token EQUALS_OPERATOR(TokenType::OPERATOR, "=");
 const Token INPUT_KEYWORD_TOKEN(TokenType::KEYWORD, "input");
+const Token PRINT_KEYWORD_TOKEN(TokenType::KEYWORD, "print");
+const Token VAL_KEYWORD_TOKEN(TokenType::KEYWORD, "val");
+const Token VAR_KEYWORD_TOKEN(TokenType::KEYWORD, "var");
 
 }  // namespace cpmc
 

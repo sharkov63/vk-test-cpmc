@@ -18,7 +18,7 @@ namespace acm {
 inline void debug_out() { std::cerr << std::endl; }
 
 template <typename T1, typename... T2>
-void debug_out(T1 x, T2... y) {
+void debug_out(const T1& x, T2... y) {
     std::cerr << ' ' << x;
     debug_out(y...);
 }
@@ -35,8 +35,7 @@ void adebug_out(T* a, int n) {
  * DEBUG(...) prints the names and then the values of all given arguments to
  * stderr.
  */
-#define DEBUG(...) \
-    std::cerr << "[" << #__VA_ARGS__ << "]:", acm::debug_out(__VA_ARGS__)
+#define DEBUG(...) std::cerr << "[" << #__VA_ARGS__ << "]:", acm::debug_out(__VA_ARGS__)
 
 /**
  * ADEBUG(a, n) prints the name and then the contents of an array, given its

@@ -19,6 +19,47 @@ class InstructionParser {
 
     ExpressionParser expressionParser;
 
+    /**
+     * Parses next Expression via expressionParser.
+     * The difference is that it wraps
+     * ExpressionSyntaxError into InstructionSyntaxError.
+     *
+     * @throws InstructionSyntaxError.
+     */
+    std::unique_ptr<Expression> nextExpression();
+
+    /**
+     * Parses next Expression via expressionParser
+     * and turns it into an empty instruction.
+     *
+     * It also reads a semicolon after the expression.
+     *
+     * @throws InstructionSyntaxError.
+     */
+    std::unique_ptr<Instruction> nextExpressionAsEmptyInstruction();
+
+    /**
+     * Parses next Definition.
+     *
+     * Caller must guarantee that
+     * context.done() == false
+     * and context() is either VAL_KEYWORD_TOKEN or VAR_KEYWORD_TOKEN.
+     *
+     * @throws InstructionSyntaxError.
+     */
+    std::unique_ptr<Instruction> nextDefinition();
+
+    /**
+     * Parses next Printing.
+     *
+     * Caller must guarantee that
+     * context.done() == false
+     * and context() is PRINT_KEYWORD_TOKEN.
+     *
+     * @throws InstructionSyntaxError.
+     */
+    std::unique_ptr<Instruction> nextPrinting();
+
    public:
     InstructionParser(ParsingContext& context);
 

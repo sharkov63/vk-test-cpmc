@@ -3,7 +3,9 @@
 
 #include <boost/test/included/unit_test.hpp>
 
+#include "Debug.hpp"
 #include "Exception.hpp"
+#include "ast/Expression.hpp"
 #include "ast/InstructionComparator.hpp"
 #include "ast/InstructionDebugPrinter.hpp"
 #include "ast/ParsingContext.hpp"
@@ -11,8 +13,8 @@
 namespace cpmc {
 namespace ast {
 
-std::ostream& operator<<(std::ostream& stream, const Instruction& instruction) {
-    InstructionDebugPrinter printer(stream);
+std::ostream& operator<<(std::ostream& stream, const cpmc::ast::Instruction& instruction) {
+    cpmc::ast::InstructionDebugPrinter printer(stream);
     instruction.accept(printer);
     return stream;
 }
@@ -20,7 +22,12 @@ std::ostream& operator<<(std::ostream& stream, const Instruction& instruction) {
 void singleTest(const std::vector<Token>& tokens, const Instruction& expected) {
     ParsingContext context(tokens);
     InstructionParser parser(context);
-    std::unique_ptr<Instruction> found = parser.nextInstruction();
+    std::unique_ptr<Instruction> found;
+    try {
+        found = parser.nextInstruction();
+    } catch (const InstructionSyntaxError& e) {
+        BOOST_FAIL("Unexpected InstructionSyntaxError:\n" + e.getMessage());
+    }
     InstructionComparator comparator(*found, expected);
     BOOST_TEST(comparator.compare());
 }
@@ -112,8 +119,8 @@ BOOST_AUTO_TEST_CASE(PRINT_OF_SUM) {
 
 BOOST_AUTO_TEST_CASE(VAL_FLOAT_DEFINITION) {
     std::vector<Token> tokens = {
-        {TokenType::KEYWORD, "val"},      {TokenType::IDENTIFIER, "pi"}, {TokenType::OPERATOR, "="},
-        {TokenType::INT_LITERAL, "3.14"}, {TokenType::DELIMITER, ";"},
+        {TokenType::KEYWORD, "val"},        {TokenType::IDENTIFIER, "pi"}, {TokenType::OPERATOR, "="},
+        {TokenType::FLOAT_LITERAL, "3.14"}, {TokenType::DELIMITER, ";"},
     };
     std::unique_ptr<Expression> e(new FloatLiteralExpression("3.14"));
     std::unique_ptr<Instruction> i(new Definition("val", "pi", e));

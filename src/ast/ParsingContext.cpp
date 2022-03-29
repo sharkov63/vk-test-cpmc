@@ -5,8 +5,7 @@
 namespace cpmc {
 namespace ast {
 
-ParsingContext::ParsingContext(const std::vector<Token>& tokens)
-    : tokens(tokens), n(tokens.size()), pos(0) {}
+ParsingContext::ParsingContext(const std::vector<Token>& tokens) : tokens(tokens), n(tokens.size()), pos(0) {}
 
 bool ParsingContext::done() const { return pos >= n; }
 
@@ -38,9 +37,8 @@ void ParsingContext::operator+=(size_t delta) {
 
 std::string ParsingContext::concatenateTokens(size_t l, size_t r) const {
     assert(l <= r);
-    assert(r < n);
     std::string result = "";
-    for (size_t i = l; i <= r; ++i) {
+    for (size_t i = l; i <= r && i < n; ++i) {
         result += tokens[i].getValue();
     }
     return result;

@@ -21,9 +21,8 @@ std::unique_ptr<Expression> ExpressionParser::nextBracketClosedExpression() {
 
     if (context.done() || context() != CLOSING_BRACKET_TOKEN) {
         // no matching bracket
-        throw ExpressionSyntaxError(
-            context.concatenateTokensToCurrent(initialPosition),
-            "Expected closing bracket \")\", found \"" + context().getValue() + "\".");
+        throw ExpressionSyntaxError(context.concatenateTokensToCurrent(initialPosition),
+                                    "Expected closing bracket \")\", found \"" + context().getValue() + "\".");
     }
 
     context++;
@@ -38,8 +37,7 @@ std::unique_ptr<Expression> ExpressionParser::nextInputExpression() {
     if (context.done() || context() != OPENING_BRACKET_TOKEN) {
         throw ExpressionSyntaxError(
             context.concatenateTokensToCurrent(initialPosition),
-            "Expected opening bracket \"(\" after \"input\" keyword, found \"" +
-                context().getValue() + "\".");
+            "Expected opening bracket \"(\" after \"input\" keyword, found \"" + context().getValue() + "\".");
     }
 
     size_t bracketPosition = context.position();
@@ -90,8 +88,8 @@ std::unique_ptr<Expression> ExpressionParser::nextOperatorFreeExpression() {
             return nextInputExpression();
         }
 
-        throw ExpressionSyntaxError(nextToken.getValue(), "Expected expression, found keyword \"" +
-                                                              nextToken.getValue() + "\".");
+        throw ExpressionSyntaxError(nextToken.getValue(),
+                                    "Expected expression, found keyword \"" + nextToken.getValue() + "\".");
     }
 
     if (type == TokenType::STRING_LITERAL) {
@@ -115,8 +113,7 @@ std::unique_ptr<Expression> ExpressionParser::nextOperatorFreeExpression() {
         return result;
     }
 
-    throw ExpressionSyntaxError(nextToken.getValue(),
-                                "Expected expression, found \"" + nextToken.getValue() + "\".");
+    throw ExpressionSyntaxError(nextToken.getValue(), "Expected expression, found \"" + nextToken.getValue() + "\".");
 }
 
 std::unique_ptr<Expression> ExpressionParser::nextExpression() {
@@ -124,18 +121,12 @@ std::unique_ptr<Expression> ExpressionParser::nextExpression() {
         throw ExpressionSyntaxError("Expected expression, found EOF.");
     }
 
-    size_t initialPosition = context.position();
     std::unique_ptr<Expression> lhs = nextOperatorFreeExpression();
 
-    if (!context.done() && context().getType() == TokenType::OPERATOR) {
+    if (!context.done() && context().getType() == TokenType::OPERATOR &&
+        validBinaryOperators.find(context().getValue()) != validBinaryOperators.end()) {
         // a binary operation is taking place
         Token operationToken = context();
-
-        if (validBinaryOperators.find(operationToken.getValue()) == validBinaryOperators.end()) {
-            throw ExpressionSyntaxError(
-                context.concatenateTokensToCurrent(initialPosition),
-                "Invalid binary operator \"" + operationToken.getValue() + "\".");
-        }
 
         std::string operation = operationToken.getValue();
         context++;
