@@ -92,3 +92,13 @@ add_executable(ProgramParser_Test
 target_include_directories(ProgramParser_Test PUBLIC ${Boost_INCLUDE_DIR})
 target_include_directories(ProgramParser_Test PUBLIC "include/")
 target_link_libraries(ProgramParser_Test PUBLIC ${Boost_LIBRARIES})
+
+
+# Runtime unit tests
+
+# Value test
+add_executable(Value_Test test/runtime/Value_Test.cpp)
+target_include_directories(Value_Test PUBLIC ${Boost_INCLUDE_DIR})
+target_include_directories(Value_Test PUBLIC "include/")
+target_include_directories(Value_Test PUBLIC "src/runtime/")
+target_link_libraries(Value_Test PUBLIC ${Boost_LIBRARIES})

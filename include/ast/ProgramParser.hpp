@@ -25,6 +25,8 @@ class ProgramParser {
     /**
      * Parses a Program from given context.
      *
+     * Empty instructions are skipped.
+     *
      * @throws SyntaxError.
      */
     Program parse();
