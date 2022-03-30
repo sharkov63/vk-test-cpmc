@@ -74,3 +74,21 @@ add_executable(InstructionParser_Test
 target_include_directories(InstructionParser_Test PUBLIC ${Boost_INCLUDE_DIR})
 target_include_directories(InstructionParser_Test PUBLIC "include/")
 target_link_libraries(InstructionParser_Test PUBLIC ${Boost_LIBRARIES})
+
+# ProgramParser test
+add_executable(ProgramParser_Test
+    test/ast/ProgramParser_Test.cpp
+    src/ast/ProgramParser.cpp
+    src/ast/Program.cpp
+    src/ast/InstructionParser.cpp
+    src/ast/InstructionComparator.cpp
+    src/ast/InstructionDebugPrinter.cpp
+    src/ast/Instruction.cpp
+    src/ast/ExpressionParser.cpp
+    src/ast/Expression.cpp
+    src/ast/ParsingContext.cpp
+    src/Token.cpp
+    src/Exception.cpp)
+target_include_directories(ProgramParser_Test PUBLIC ${Boost_INCLUDE_DIR})
+target_include_directories(ProgramParser_Test PUBLIC "include/")
+target_link_libraries(ProgramParser_Test PUBLIC ${Boost_LIBRARIES})

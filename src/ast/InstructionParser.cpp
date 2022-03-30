@@ -53,7 +53,7 @@ std::unique_ptr<Instruction> InstructionParser::nextDefinition() {
     std::string identifier = context().getValue();
     ++context;
 
-    if (context.done() || context() != EQUALS_OPERATOR) {
+    if (context.done() || context() != EQUALS_OPERATOR_TOKEN) {
         // It's either declaration without definition, or invalid instruction.
 
         std::string found;
@@ -203,7 +203,7 @@ std::unique_ptr<Instruction> InstructionParser::nextInstruction() {
             return std::unique_ptr<Instruction>(new EmptyInstruction());
         }
 
-        if (context() == EQUALS_OPERATOR) {
+        if (context() == EQUALS_OPERATOR_TOKEN) {
             // Assignment
             ++context;
 

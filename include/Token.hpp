@@ -53,7 +53,7 @@ class Token {
 const Token OPENING_BRACKET_TOKEN(TokenType::DELIMITER, "(");
 const Token CLOSING_BRACKET_TOKEN(TokenType::DELIMITER, ")");
 const Token SEMICOLON_TOKEN(TokenType::DELIMITER, ";");
-const Token EQUALS_OPERATOR(TokenType::OPERATOR, "=");
+const Token EQUALS_OPERATOR_TOKEN(TokenType::OPERATOR, "=");
 const Token INPUT_KEYWORD_TOKEN(TokenType::KEYWORD, "input");
 const Token PRINT_KEYWORD_TOKEN(TokenType::KEYWORD, "print");
 const Token VAL_KEYWORD_TOKEN(TokenType::KEYWORD, "val");

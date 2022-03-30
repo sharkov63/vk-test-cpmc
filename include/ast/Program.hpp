@@ -20,6 +20,7 @@ class Program {
     std::vector<std::unique_ptr<Instruction>> instructions;
 
    public:
+    Program() = default;
     Program(std::vector<std::unique_ptr<Instruction>>&& instructions);
 
     // field getter
