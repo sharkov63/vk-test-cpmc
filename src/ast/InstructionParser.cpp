@@ -95,6 +95,7 @@ std::unique_ptr<Instruction> InstructionParser::nextDefinition() {
                                      "Expected semicolon after the definition of \"" + identifier + "\", found \"" +
                                          context().getValue() + "\".");
     }
+    ++context;
 
     return std::unique_ptr<Instruction>(new Definition(keyword, identifier, expression));
 }

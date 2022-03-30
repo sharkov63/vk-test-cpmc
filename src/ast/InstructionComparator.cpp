@@ -1,5 +1,7 @@
 #include "ast/InstructionComparator.hpp"
 
+#include "Debug.hpp"
+
 namespace cpmc {
 namespace ast {
 

@@ -3,16 +3,30 @@
 
 #include <boost/test/included/unit_test.hpp>
 
+#include "Debug.hpp"
 #include "Exception.hpp"
 #include "ast/InstructionComparator.hpp"
+#include "ast/InstructionDebugPrinter.hpp"
 
 namespace cpmc {
 namespace ast {
 
+std::ostream& operator<<(std::ostream& stream, const cpmc::ast::Instruction& instruction) {
+    cpmc::ast::InstructionDebugPrinter printer(stream);
+    instruction.accept(printer);
+    return stream;
+}
+
 bool programEquals(const Program& program1, const Program& program2) {
-    auto& instructions1 = program1.getInstructions();
-    auto& instructions2 = program2.getInstructions();
-    if (instructions1.size() != instructions2.size()) return false;
+    const std::vector<std::unique_ptr<Instruction>>& instructions1 = program1.getInstructions();
+    const std::vector<std::unique_ptr<Instruction>>& instructions2 = program2.getInstructions();
+    if (instructions1.size() != instructions2.size()) {
+        DEBUG(instructions1.size(), instructions2.size());
+        for (auto& i : instructions2) {
+            DEBUG(*i);
+        }
+        return false;
+    }
     for (size_t i = 0; i < instructions1.size(); ++i) {
         InstructionComparator comparator(*instructions1[i], *instructions2[i]);
         if (!comparator.compare()) {
@@ -46,20 +60,22 @@ BOOST_AUTO_TEST_CASE(VK_TEST_1) {
         {TokenType::IDENTIFIER, "str"},
         {TokenType::OPERATOR, "+"},
         {TokenType::STRING_LITERAL, "\"!\""},
-        {TokenType::DELIMITER, ";"},
+        SEMICOLON_TOKEN,
         PRINT_KEYWORD_TOKEN,
         OPENING_BRACKET_TOKEN,
         {TokenType::IDENTIFIER, "str"},
         CLOSING_BRACKET_TOKEN,
+        SEMICOLON_TOKEN,
     };
     std::unique_ptr<Expression> str(new IdentifierExpression("str"));
     std::unique_ptr<Expression> hello(new StringLiteralExpression("\"Hello\""));
     std::unique_ptr<Expression> exclMark(new StringLiteralExpression("\"!\""));
     std::unique_ptr<Expression> i2Rhs(new OperationExpression("+", str, exclMark));
+    std::unique_ptr<Expression> str_copy(new IdentifierExpression("str"));
 
     std::unique_ptr<Instruction> i1(new Definition("var", "str", hello));
     std::unique_ptr<Instruction> i2(new Assignment("str", i2Rhs));
-    std::unique_ptr<Instruction> i3(new Printing(str));
+    std::unique_ptr<Instruction> i3(new Printing(str_copy));
 
     std::vector<std::unique_ptr<Instruction>> instructions;
     instructions.push_back(std::move(i1));
@@ -94,10 +110,12 @@ BOOST_AUTO_TEST_CASE(VK_TEST_2) {
     std::unique_ptr<Expression> i2i18(new OperationExpression("+", i2, i18));
     std::unique_ptr<Expression> sum(new OperationExpression("+", i21, i2i18));
 
-    std::unique_ptr<Instruction> assignment(new Assignment("str", sum));
+    std::unique_ptr<Instruction> i1(new Assignment("str", sum));
+    std::unique_ptr<Instruction> instr2(new Printing(str));
 
     std::vector<std::unique_ptr<Instruction>> instructions;
-    instructions.push_back(std::move(assignment));
+    instructions.push_back(std::move(i1));
+    instructions.push_back(std::move(instr2));
 
     Program program(std::move(instructions));
 
@@ -165,13 +183,16 @@ BOOST_AUTO_TEST_CASE(VK_TEST_4) {
     };
 
     std::unique_ptr<Expression> worldString(new IdentifierExpression("worldString"));
+    std::unique_ptr<Expression> worldString2(new IdentifierExpression("worldString"));
     std::unique_ptr<Expression> answerNumber(new IdentifierExpression("answerNumber"));
+    std::unique_ptr<Expression> answerNumber2(new IdentifierExpression("answerNumber"));
+    std::unique_ptr<Expression> answerNumber3(new IdentifierExpression("answerNumber"));
     std::unique_ptr<Expression> sum(new OperationExpression("+", worldString, answerNumber));
-    std::unique_ptr<Expression> dif(new OperationExpression("-", worldString, answerNumber));
+    std::unique_ptr<Expression> dif(new OperationExpression("-", worldString2, answerNumber2));
     std::unique_ptr<Expression> pi(new IdentifierExpression("pi"));
     std::unique_ptr<Expression> piValue(new FloatLiteralExpression("3.14"));
-    ;
-    std::unique_ptr<Expression> piPlusAnswerNumber(new OperationExpression("+", pi, answerNumber));
+
+    std::unique_ptr<Expression> piPlusAnswerNumber(new OperationExpression("+", pi, answerNumber3));
 
     std::unique_ptr<Instruction> i1(new Printing(sum));
     std::unique_ptr<Instruction> i2(new Printing(dif));
@@ -212,10 +233,12 @@ BOOST_AUTO_TEST_CASE(VK_TEST_5) {
         SEMICOLON_TOKEN,
     };
     std::unique_ptr<Expression> numberString(new IdentifierExpression("numberString"));
+    std::unique_ptr<Expression> numberString1(new IdentifierExpression("numberString"));
     std::unique_ptr<Expression> s134(new StringLiteralExpression("\"134\""));
     std::unique_ptr<Expression> answerNumber(new IdentifierExpression("answerNumber"));
+    std::unique_ptr<Expression> answerNumber1(new IdentifierExpression("answerNumber"));
     std::unique_ptr<Expression> dif(new OperationExpression("-", numberString, answerNumber));
-    std::unique_ptr<Expression> sum(new OperationExpression("+", numberString, answerNumber));
+    std::unique_ptr<Expression> sum(new OperationExpression("+", numberString1, answerNumber1));
 
     std::unique_ptr<Instruction> i1(new Definition("val", "numberString", s134));
     std::unique_ptr<Instruction> i2(new Printing(dif));
