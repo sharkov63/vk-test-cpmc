@@ -137,16 +137,20 @@ class StringValue : public PrimitiveValue {
     const std::string& getValue() const { return value; }
 
     int32_t toIntOrZero() const {
-        int result;
-        if (sscanf(value.c_str(), "%d", &result) != 1) {
+        const char* strBegin = value.c_str();
+        char* strEnd;
+        int result = std::strtol(strBegin, &strEnd, 10);
+        if (result == 0 || strEnd - strBegin < (long)value.size()) {
             return 0;
         }
         return result;
     }
 
     float toFloatOrZero() const {
-        float result;
-        if (sscanf(value.c_str(), "%f", &result) != 1) {
+        const char* strBegin = value.c_str();
+        char* strEnd;
+        float result = std::strtof(strBegin, &strEnd);
+        if (result == 0 || strEnd - strBegin < (long)value.size()) {
             return 0;
         }
         return result;
@@ -307,7 +311,7 @@ void StringValue::Subtractor::visit(const StringValue&) {
 
 void StringValue::Subtractor::visit(const IntValue& intValue) {
     // String is converted to int (or 0)
-    result = new IntValue(lhs.toIntOrZero() - intValue.getValue());
+    result = new IntValue((int32_t)lhs.toFloatOrZero() - intValue.getValue());
 }
 
 void StringValue::Subtractor::visit(const FloatValue& floatValue) {
@@ -333,7 +337,7 @@ void IntValue::Adder::visit(const FloatValue& floatValue) {
 
 void IntValue::Subtractor::visit(const StringValue& stringValue) {
     // String is converted to int (or 0)
-    result = new IntValue(lhs.getValue() - stringValue.toIntOrZero());
+    result = new IntValue(lhs.getValue() - (int32_t)stringValue.toFloatOrZero());
 }
 
 void IntValue::Subtractor::visit(const IntValue& intValue) {

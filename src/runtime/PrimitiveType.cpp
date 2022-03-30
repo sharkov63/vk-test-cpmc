@@ -15,6 +15,9 @@
  * stuff like std::unique_ptr and etc.
  */
 
+#include <iostream>
+#include <sstream>
+
 #include "Exception.cpp"
 #include "PrimitiveValue.cpp"
 
@@ -69,6 +72,21 @@ class PrimitiveType {
     friend std::ostream& operator<<(std::ostream& stream, const PrimitiveType& variable);
 
     void swap(PrimitiveType& other) { std::swap(value, other.value); }
+
+    static void print(std::ostream& stream, const PrimitiveType& x) { stream << x << std::endl; }
+
+    static void print(const PrimitiveType& x) { print(std::cout, x); }
+
+    static PrimitiveType input(std::istream& in, std::ostream& out, const std::string& message) {
+        out << message;
+        std::string s;
+        in >> s;
+        return s;
+    }
+
+    static PrimitiveType input(const std::string& message) { return input(std::cin, std::cout, message); }
+
+    static PrimitiveType input() { return input(std::cin, std::cout, ""); }
 };
 
 std::ostream& operator<<(std::ostream& stream, const PrimitiveType& variable) { return stream << variable.toString(); }
