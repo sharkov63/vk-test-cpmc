@@ -6,6 +6,8 @@ project(cpmc)
 # Sources
 set(CMAKE_SOURCE_DIR "src/")
 file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/*.cpp")
+file(GLOB_RECURSE RUNTIME_SOURCES "${CMAKE_SOURCE_DIR}/runtime/*.cpp")
+list(REMOVE_ITEM SOURCES ${RUNTIME_SOURCES})
 
 # Compilation
 set(CMAKE_CXX_STANDARD 11)
@@ -96,9 +98,16 @@ target_link_libraries(ProgramParser_Test PUBLIC ${Boost_LIBRARIES})
 
 # Runtime unit tests
 
-# Value test
-add_executable(Value_Test test/runtime/Value_Test.cpp)
-target_include_directories(Value_Test PUBLIC ${Boost_INCLUDE_DIR})
-target_include_directories(Value_Test PUBLIC "include/")
-target_include_directories(Value_Test PUBLIC "src/runtime/")
-target_link_libraries(Value_Test PUBLIC ${Boost_LIBRARIES})
+# PrimitiveValue test
+add_executable(PrimitiveValue_Test test/runtime/PrimitiveValue_Test.cpp)
+target_include_directories(PrimitiveValue_Test PUBLIC ${Boost_INCLUDE_DIR})
+target_include_directories(PrimitiveValue_Test PUBLIC "include/")
+target_include_directories(PrimitiveValue_Test PUBLIC "src/runtime/")
+target_link_libraries(PrimitiveValue_Test PUBLIC ${Boost_LIBRARIES})
+
+# PrimitiveType test
+add_executable(PrimitiveType_Test test/runtime/PrimitiveType_Test.cpp)
+target_include_directories(PrimitiveType_Test PUBLIC ${Boost_INCLUDE_DIR})
+target_include_directories(PrimitiveType_Test PUBLIC "include/")
+target_include_directories(PrimitiveType_Test PUBLIC "src/runtime/")
+target_link_libraries(PrimitiveType_Test PUBLIC ${Boost_LIBRARIES})
