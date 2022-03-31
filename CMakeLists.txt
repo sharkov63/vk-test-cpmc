@@ -23,6 +23,7 @@ target_include_directories(${PROJECT_NAME}
         "include/"
 )
 
+add_compile_definitions("CPMC_BUILD")
 
 # Unit-testing
 

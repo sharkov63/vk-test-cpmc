@@ -20,8 +20,8 @@ enum ExpressionType {
     FLOAT_LITERAL,   /// A float literal.
     IDENTIFIER,      /// An identifier (a name of a variable or a constant).
     INPUT,           /// An expression of type input(<expression>) or input().
-    OPERATION,  /// A binary operation: <expression><op><expression> where <op>
-                /// is '+' or '-'.
+    OPERATION,       /// A binary operation: <expression><op><expression> where <op>
+                     /// is '+' or '-'.
 };
 
 /**
@@ -66,8 +66,7 @@ class Expression {
     /**
      * For debug printing.
      */
-    friend std::ostream& operator<<(std::ostream& stream,
-                                    const Expression& expression);
+    friend std::ostream& operator<<(std::ostream& stream, const Expression& expression);
 };
 
 /**
@@ -138,6 +137,8 @@ class IdentifierExpression : public Expression {
     virtual std::string toCppExpression() const override;
 
     virtual bool operator==(const Expression& other) const override;
+
+    std::string getIdentifier() const;
 };
 
 /**
@@ -162,6 +163,8 @@ class InputExpression : public Expression {
     virtual std::string toCppExpression() const override;
 
     virtual bool operator==(const Expression& other) const override;
+
+    const std::unique_ptr<Expression>& getArgument() const;
 };
 
 /**
@@ -189,14 +192,16 @@ class OperationExpression : public Expression {
     virtual void debugPrint(std::ostream& stream) const override;
 
    public:
-    OperationExpression(const std::string& operation,
-                        std::unique_ptr<Expression>& lhs,
+    OperationExpression(const std::string& operation, std::unique_ptr<Expression>& lhs,
                         std::unique_ptr<Expression>& rhs);
     virtual ~OperationExpression() override;
 
     virtual std::string toCppExpression() const override;
 
     virtual bool operator==(const Expression& other) const override;
+
+    const std::unique_ptr<Expression>& getLhs() const;
+    const std::unique_ptr<Expression>& getRhs() const;
 };
 
 }  // namespace ast

@@ -18,8 +18,13 @@
 #include <iostream>
 #include <sstream>
 
+#ifdef CPMC_BUILD
+// included only for unit-testing,
+// should not be included while compiling
+// CPM code
 #include "Exception.cpp"
 #include "PrimitiveValue.cpp"
+#endif
 
 namespace cpmc {
 namespace runtime {
