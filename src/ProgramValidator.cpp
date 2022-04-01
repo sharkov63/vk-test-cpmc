@@ -36,6 +36,10 @@ void ProgramValidator::MyInstructionVisitor::visit(const ast::Definition& defini
     const std::unique_ptr<ast::Expression>& eptr = definition.getExpressionPtr();
     if (eptr.get() == nullptr) {
         // declaration without definition
+        if (isConstant) {
+            validator.currentResult.valid = false;
+            validator.currentResult.errorMessage = "Val declaration of '" + identifier + "' without initialization";
+        }
         return;
     }
     validator.validateExpression(*eptr);
@@ -50,6 +54,11 @@ void ProgramValidator::MyInstructionVisitor::visit(const ast::Assignment& assign
         validator.currentResult.valid = false;
         validator.currentResult.errorMessage = "Use of undeclared identifier '" + identifier + "'.";
         return;
+    }
+    if (validator.isDeclaredConstant(identifier)) {
+        // trying to modify a constant varaible
+        validator.currentResult.valid = false;
+        validator.currentResult.errorMessage = "Cannot assign to const variable (val) '" + identifier + "'.";
     }
     validator.validateExpression(*assignment.getExpressionPtr());
     validator.define(identifier);
