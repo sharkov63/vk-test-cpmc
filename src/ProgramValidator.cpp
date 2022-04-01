@@ -93,6 +93,20 @@ void ProgramValidator::validateExpression(const ast::Expression& expression) {
     }
 }
 
+void ProgramValidator::validateIdentifierInExpression(const std::string& identifier) {
+    if (!currentResult.valid) return;
+
+    if (defined.find(identifier) == defined.end()) {
+        currentResult.valid = false;
+        if (declaredIsConstant.find(identifier) != declaredIsConstant.end()) {
+            currentResult.errorMessage = "Uninitialized variable '" + identifier + "' cannot be used in expression.";
+        } else {
+            currentResult.errorMessage = "Use of undeclared identifier '" + identifier + "'.";
+        }
+        return;
+    }
+}
+
 ProgramValidator::ProgramValidator(const ast::Program& program) : program(program) {}
 
 ProgramValidatorResult ProgramValidator::validate() {

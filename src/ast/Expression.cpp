@@ -26,8 +26,6 @@ LiteralExpression::LiteralExpression(ExpressionType type, const std::string& lit
 
 LiteralExpression::~LiteralExpression() = default;
 
-std::string LiteralExpression::toCppExpression() const { return literal; }
-
 bool LiteralExpression::operator==(const Expression& other) const {
     if (other.getType() != type) {
         return false;
@@ -43,6 +41,8 @@ StringLiteralExpression::StringLiteralExpression(const std::string& literal)
 
 StringLiteralExpression::~StringLiteralExpression() = default;
 
+std::string StringLiteralExpression::toCppExpression() const { return "cpmc::runtime::PrimitiveType(" + literal + ")"; }
+
 /* IntLiteralExpression */
 
 IntLiteralExpression::IntLiteralExpression(const std::string& literal)
@@ -50,12 +50,16 @@ IntLiteralExpression::IntLiteralExpression(const std::string& literal)
 
 IntLiteralExpression::~IntLiteralExpression() = default;
 
+std::string IntLiteralExpression::toCppExpression() const { return "cpmc::runtime::PrimitiveType(" + literal + ")"; }
+
 /* FloatLiteralExpression */
 
 FloatLiteralExpression::FloatLiteralExpression(const std::string& literal)
     : LiteralExpression(ExpressionType::FLOAT_LITERAL, literal) {}
 
 FloatLiteralExpression::~FloatLiteralExpression() = default;
+
+std::string FloatLiteralExpression::toCppExpression() const { return "cpmc::runtime::PrimitiveType(" + literal + "f)"; }
 
 /* IdentifierExpression */
 
@@ -90,7 +94,9 @@ InputExpression::InputExpression(std::unique_ptr<Expression>& argument)
 
 InputExpression::~InputExpression() = default;
 
-std::string InputExpression::toCppExpression() const { return "input(" + argument->toCppExpression() + ")"; }
+std::string InputExpression::toCppExpression() const {
+    return "cpmc::runtime::PrimitiveType::input((" + argument->toCppExpression() + ").toString())";
+}
 
 bool InputExpression::operator==(const Expression& other) const {
     if (other.getType() != ExpressionType::INPUT) {

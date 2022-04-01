@@ -22,8 +22,7 @@ void CppCompiler::compile(const CppSourceCode& src, const std::string& destinati
     }
     // pipe opened successfully
 
-    int writeResult =
-        fprintf(pipe, "%s", src.getContent().c_str());  // write source code to pipe stdin
+    int writeResult = fprintf(pipe, "%s", src.getContent().c_str());  // write source code to pipe stdin
     if (writeResult < 0) {
         pclose(pipe);
         std::string error = "Could not write to opened pipe's standard input.";
@@ -34,8 +33,7 @@ void CppCompiler::compile(const CppSourceCode& src, const std::string& destinati
     int exitStatus = pclose(pipe);  // wait for process to finish
 
     if (exitStatus != 0) {
-        std::string error = "Compiler returns non-zero exit code (" + std::to_string(exitStatus) +
-                            "):\n" + strerror(errno);
+        std::string error = "Compiler returns non-zero exit code (" + std::to_string(exitStatus) + ").";
         throw CompilationException(commandLine, error);
     }
 }

@@ -86,8 +86,6 @@ class LiteralExpression : public Expression {
    public:
     virtual ~LiteralExpression() override;
 
-    virtual std::string toCppExpression() const override final;
-
     virtual bool operator==(const Expression& other) const override final;
 };
 
@@ -98,6 +96,8 @@ class StringLiteralExpression : public LiteralExpression {
    public:
     StringLiteralExpression(const std::string& litreal);
     virtual ~StringLiteralExpression() override;
+
+    virtual std::string toCppExpression() const override;
 };
 
 /**
@@ -107,6 +107,8 @@ class IntLiteralExpression : public LiteralExpression {
    public:
     IntLiteralExpression(const std::string& literal);
     virtual ~IntLiteralExpression() override;
+
+    virtual std::string toCppExpression() const override;
 };
 
 /**
@@ -116,6 +118,8 @@ class FloatLiteralExpression : public LiteralExpression {
    public:
     FloatLiteralExpression(const std::string& literal);
     virtual ~FloatLiteralExpression() override;
+
+    virtual std::string toCppExpression() const override;
 };
 
 /**
