@@ -1,6 +1,4 @@
 ### TODO
-* Check for constants not to be reassigned.
-
 * Implement Visitor pattern for Expressions, etc.
 * Remove stack recursion in parsing / Expression analyzing.
 * Add token coordinates: line number + column number.

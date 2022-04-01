@@ -54,6 +54,11 @@ target_link_libraries(Tokenizer_Test PUBLIC ${Boost_LIBRARIES})
 add_executable(ExpressionParser_Test
     test/ast/ExpressionParser_Test.cpp
     src/ast/ExpressionParser.cpp
+    src/CppTranslator.cpp
+    src/ast/Instruction.cpp
+    src/RuntimeSources.cpp
+    src/CppSourceCode.cpp
+    src/ast/Program.cpp
     src/ast/Expression.cpp
     src/ast/ParsingContext.cpp
     src/Token.cpp
@@ -72,6 +77,10 @@ add_executable(InstructionParser_Test
     src/ast/ExpressionParser.cpp
     src/ast/Expression.cpp
     src/ast/ParsingContext.cpp
+    src/CppTranslator.cpp
+    src/RuntimeSources.cpp
+    src/CppSourceCode.cpp
+    src/ast/Program.cpp
     src/Token.cpp
     src/Exception.cpp)
 target_include_directories(InstructionParser_Test PUBLIC ${Boost_INCLUDE_DIR})
@@ -87,6 +96,9 @@ add_executable(ProgramParser_Test
     src/ast/InstructionComparator.cpp
     src/ast/InstructionDebugPrinter.cpp
     src/ast/Instruction.cpp
+    src/CppTranslator.cpp
+    src/RuntimeSources.cpp
+    src/CppSourceCode.cpp
     src/ast/ExpressionParser.cpp
     src/ast/Expression.cpp
     src/ast/ParsingContext.cpp
