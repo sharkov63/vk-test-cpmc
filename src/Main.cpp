@@ -10,7 +10,7 @@
 int main(int argc, const char** argv) {
     using namespace cpmc;
 
-    // Parse CLI args
+    // Parse CLI arguments
     CliArgResult args = CliArgParser().parse(argc, argv);
 
     // Read source code
@@ -48,7 +48,7 @@ int main(int argc, const char** argv) {
         exit(0);
     }
 
-    // Translate CPM Program to C++ source code.
+    // Translate C+- Program to C++ source code.
     CppTranslator transalator(program);
     CppSourceCode translated = transalator.translate();
 
